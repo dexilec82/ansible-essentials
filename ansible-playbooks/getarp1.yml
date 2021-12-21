@@ -1,0 +1,20 @@
+#getarp1 playbook
+#ansible script always starts with ---
+---
+- name: Get ARP information
+  hosts: all
+  gather_facts: false
+
+  tasks:
+   - name: show arp
+     raw: "show arp"
+
+     register: print_output
+
+   - debug: var=print_output.stdout_lines
+
+### make sure that hostfile is updated in /etc/ansible/hosts ###
+##using ansible playbook. run the following ansible command to run getarp.yml playbook script to get show arp output
+ansible-playbook getarp1.yml -u carlo -k
+ansible-playbook getarp1.yml -u carlo -k | grep 'ok:\|122\.8'
+

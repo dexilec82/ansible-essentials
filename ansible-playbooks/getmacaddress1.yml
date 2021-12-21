@@ -1,0 +1,17 @@
+#getmacaddress1.yml playbook
+---
+- name: Get Mac Address information
+  hosts: all
+  gather_facts: false
+
+  tasks:
+   - name: show mac address
+     raw: "show mac address-table"
+
+     register: print_output
+
+   - debug: var=print_output.stdout_lines
+
+#using ansible playbook. run ansible playbook getmacaddress1.yml to get show mac output
+ansible-playbook getmacaddress1.yml -u carlo -k
+ansible-playbook getmacaddress1.yml -u carlo -k | grep 'ok:\|86b8'

@@ -1,0 +1,30 @@
+### Ansible Ad Hoc commands ###
+### Ad Hoc commands are one liner ansible commands ###
+
+## check version
+ansible --version
+
+## lists hosts
+ansible --list hosts all
+
+## run ansible on a device/switch and other hosts to get show version output and also use grep using a file called gns3hosts containing the hosts
+ansible S1 -m raw -a "show version" -u carlo -k
+ansible gns3-core -i ./gns3hosts -m raw -a "show version" -u carlo -k
+ansible all -i ./gns3hosts -m raw -a "show version" -u carlo -k
+ansible all -i ./gns3hosts -m raw -a "show version" -u carlo -k | grep flash0
+ansible all -i ./gns3hosts -m raw -a "show version" -u carlo -k | grep 'CHANGED\|Software'
+ansible gns3-core -i ./gns3hosts -m raw -a "show run | in user" -u carlo -k
+
+## run ansible on gns3hosts to get show run and store to shrun.txt file
+ansible all -i ./gns3hosts -m raw -a "show run" -u carlo -k > shrun.txt
+
+## check the yml file first for errors before deploying
+ansible-playbook getver2.yml  -u carlo -k --check
+
+## sample for running playbook module named getver2.yml.
+## ansible playbooks use YAML
+ansible-playbook getver2.yml  -u carlo -k
+
+## check for the currently installed version
+ansible all -m shell -a "cat /etc/lsb-release" -k
+
